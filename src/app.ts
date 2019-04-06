@@ -1,25 +1,24 @@
-import { Store } from './store';
+import { Store, reducer } from './store';
 
-import {renderTodos} from './utils';
+import { renderTodos } from './utils';
 
 const input = document.querySelector('input') as HTMLInputElement;
 const button = document.querySelector('button') as HTMLButtonElement;
 const destroy = document.querySelector('.unsubscribe') as HTMLButtonElement;
 const todoList = document.querySelector('.todos') as HTMLLIElement;
 
-const store = new Store(
-  {},
-  {
-    todos: [{label: 'Eat Pizza', complete: false}],
-  }
-);
+const reducers = {
+  todos: reducer
+};
+
+const store = new Store(reducers);
 
 button.addEventListener(
   'click',
   () => {
     if (!input.value.trim()) return;
 
-    const payload = {label: input.value, complete: false};
+    const payload = { label: input.value, complete: false };
 
     store.dispatch({
       type: 'ADD_TODO',
@@ -31,7 +30,7 @@ button.addEventListener(
   false
 );
 
-todoList.addEventListener('click', function (event) {
+todoList.addEventListener('click', function(event) {
   const target = event.target as HTMLButtonElement;
   if (target.nodeName.toLowerCase() === 'button') {
     console.log(target);
